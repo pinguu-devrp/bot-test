@@ -1,0 +1,1707 @@
+/*
+ * Emergencias · Ibiza Roleplay (portal y MDT de Guardia Civil, SAMU y Bombers)
+ * Estética Origin Network × Ibiza Roleplay con atmósfera GTA VI:
+ * base pizarra oscura (#0d1219), gradientes crepusculares suaves, marca de agua del logo,
+ * bordes finos, etiquetas en mayúsculas espaciadas con punto naranja y halo, foco visible
+ * de 3 px con offset, acentos en azul, franja tricolor en degradado en el portal y color
+ * propio en cada MDT (Guardia Civil verde, SAMU amarillo/verde, Bombers rojo).
+ */
+
+:root {
+  --fondo: #0d1219;
+  --panel: #111821;
+  --panel-2: #161f2a;
+  --borde: #222d3a;
+  --borde-fuerte: #2e3b4b;
+  --azul: #3b82f6;
+  --azul-claro: #60a5fa;
+  --azul-oscuro: #2563eb;
+  --naranja: #f28c28;
+  --naranja-vivo: #ea580c;
+  --ambar: #fbbf24;
+  --rojo: #e5484d;
+  --verde: #3fb67a;
+  --verde-gc: #0a7b4a;
+  --amarillo-samu: #f5c400;
+  --verde-samu: #0b8f4d;
+  --rojo-bombers: #c8102e;
+  --gta-rosa: rgba(219, 39, 119, 0.16);
+  --gta-violeta: rgba(124, 58, 237, 0.14);
+  --gta-naranja: rgba(242, 140, 40, 0.16);
+  --gta-azul: rgba(59, 130, 246, 0.13);
+  --texto: #e7ecf2;
+  --texto-secundario: #a3afbd;
+  --texto-terciario: #8190a1;
+  --tenue: #a3afbd;
+  --muy-tenue: #8190a1;
+  --radio: 0.7143rem;
+  --fuente: "Segoe UI", "Segoe UI Variable", system-ui, -apple-system, "Roboto", sans-serif;
+  --fuente-mono: "Cascadia Mono", Consolas, "SF Mono", "Roboto Mono", monospace;
+  --logo-ibiza: url("logo.png");
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* `hidden` manda siempre, aunque la clase tenga su propio `display`. */
+[hidden] {
+  display: none !important;
+}
+
+/*
+ * Todos los tamaños van en rem: la letra base marca el tamaño de toda la interfaz y crece con la
+ * pantalla (16 px en el móvil, unos 18 px en un portátil y hasta 22 px en una pantalla grande).
+ */
+html {
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+  font-size: clamp(16px, 0.6vw + 10px, 22px);
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: var(--fuente);
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Foco visible de 3 px con offset para navegación por teclado (estilo landing). */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+.pulsable:focus-visible {
+  outline: 3px solid var(--azul-claro);
+  outline-offset: 3px;
+}
+
+.icono {
+  width: 1.2857rem;
+  height: 1.2857rem;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+code {
+  padding: 0.0714rem 0.4286rem;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: 0.2857rem;
+  background: var(--panel-2);
+  color: var(--texto);
+  font-family: var(--fuente-mono);
+}
+
+/* ------------------------------------------------------------------------- */
+/* Tablet a pantalla completa                                                */
+/* ------------------------------------------------------------------------- */
+
+.escritorio {
+  height: 100vh;
+  height: 100dvh;
+  background: #080c12;
+}
+/* Ocupa toda la ventana: del marco solo queda un bisel fino con la cámara. */
+.tablet {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0.8571rem;
+  background: linear-gradient(160deg, #1b2330, #0b0f15 55%, #141b25);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+/* Cámara frontal en el bisel. */
+.camara {
+  position: absolute;
+  top: 0.2143rem;
+  left: 50%;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: #05070a;
+  box-shadow: inset 0 0 0 1.5px #1f2836;
+  transform: translateX(-50%);
+}
+.pantalla {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--borde);
+  border-radius: 1rem;
+  background-color: var(--fondo);
+  background-image:
+    radial-gradient(46rem 28rem at 12% -6%, var(--gta-rosa), transparent 70%),
+    radial-gradient(50rem 30rem at 88% -4%, var(--gta-naranja), transparent 72%),
+    radial-gradient(44rem 28rem at 50% 42%, var(--gta-violeta), transparent 75%),
+    radial-gradient(42rem 26rem at 85% 108%, var(--gta-azul), transparent 70%),
+    linear-gradient(165deg, #131122 0%, #0d1219 48%, #121521 100%);
+}
+
+/* Marca de agua sutil con el logo oficial de Ibiza RP integrada en el fondo GTA VI. */
+.pantalla::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: var(--logo-ibiza);
+  background-repeat: no-repeat;
+  background-position: right -1.5rem top 52%;
+  background-size: min(74vw, 27rem) auto;
+  opacity: 0.075;
+}
+
+.barra-estado,
+.cabecera,
+.contenido,
+.login,
+.navegacion {
+  position: relative;
+  z-index: 1;
+}
+
+/* Barra de estado de la tablet. */
+.barra-estado {
+  flex: none;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0.4286rem 1.1429rem;
+  background: rgba(10, 14, 20, 0.92);
+  border-bottom: 1px solid var(--borde);
+  font-size: 0.72em;
+  color: var(--tenue);
+}
+.barra-hora {
+  font-family: var(--fuente-mono);
+  font-weight: 600;
+}
+.barra-titulo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--texto);
+}
+/* Detalle de cada cuerpo y franja tricolor en degradado para el portal de Emergencias. */
+.franja {
+  width: 1.4286rem;
+  height: 0.4286rem;
+  border-radius: 0.1429rem;
+}
+.franja-gc {
+  background: linear-gradient(90deg, var(--verde-gc) 0%, #19a463 62%, #ffffff 62%, #ffffff 100%);
+}
+.franja-samu {
+  background: linear-gradient(90deg, var(--amarillo-samu) 0%, var(--amarillo-samu) 50%, var(--verde-samu) 50%, var(--verde-samu) 100%);
+}
+.franja-bombers {
+  background: linear-gradient(90deg, var(--rojo-bombers) 0%, #f0514f 62%, #ffffff 62%, #ffffff 100%);
+}
+.franja-emergencias {
+  width: 1.8571rem;
+  background: linear-gradient(90deg, var(--verde-gc) 0%, var(--amarillo-samu) 50%, var(--rojo-bombers) 100%);
+}
+.conexion {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4286rem;
+}
+.conexion .punto {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--muy-tenue);
+}
+.conexion.conectado .punto {
+  background: var(--verde);
+  box-shadow: 0 0 6px var(--verde);
+}
+.conexion.conectando .punto,
+.conexion.reconectando .punto {
+  background: var(--ambar);
+}
+.conexion.desconectado .punto {
+  background: var(--muy-tenue);
+}
+
+/* ------------------------------------------------------------------------- */
+/* Cabecera                                                                  */
+/* ------------------------------------------------------------------------- */
+
+.cabecera {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8571rem;
+  padding: 0.8571rem 1.4286rem;
+  border-bottom: 1px solid var(--borde);
+  background: rgba(17, 24, 33, 0.92);
+}
+/* Línea de identidad bajo la cabecera: tricolor en el portal y del color del cuerpo en cada MDT. */
+.cabecera::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--verde-gc) 0%, var(--amarillo-samu) 50%, var(--rojo-bombers) 100%);
+  pointer-events: none;
+}
+.pantalla:has(#franja.franja-gc) .cabecera::after {
+  background: linear-gradient(90deg, var(--verde-gc) 0%, #19a463 100%);
+}
+.pantalla:has(#franja.franja-samu) .cabecera::after {
+  background: linear-gradient(90deg, var(--amarillo-samu) 0%, var(--verde-samu) 100%);
+}
+.pantalla:has(#franja.franja-bombers) .cabecera::after {
+  background: linear-gradient(90deg, var(--rojo-bombers) 0%, #f0514f 100%);
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 0.7143rem;
+}
+.logo {
+  width: 2.4286rem;
+  height: 2.4286rem;
+  border-radius: 0.5714rem;
+  object-fit: contain;
+  filter: drop-shadow(0 0.2143rem 0.5714rem rgba(0, 0, 0, 0.45));
+}
+.insignia-marca {
+  display: none;
+  width: 2.4286rem;
+  height: 2.4286rem;
+  place-items: center;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: 0.5714rem;
+  background: var(--panel-2);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--azul-claro);
+}
+body.sin-logo .logo {
+  display: none;
+}
+body.sin-logo .insignia-marca {
+  display: grid;
+}
+.marca-texto {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+.marca-titulo {
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--texto);
+}
+.marca-sub {
+  font-size: 0.68em;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--azul-claro);
+}
+.cabecera-derecha {
+  display: flex;
+  align-items: center;
+  gap: 0.7143rem;
+}
+.agente {
+  font-size: 0.82em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tenue);
+}
+.boton-icono {
+  display: grid;
+  place-items: center;
+  width: 2.4286rem;
+  height: 2.4286rem;
+  padding: 0;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: 0.5714rem;
+  background: var(--panel-2);
+  color: var(--tenue);
+  cursor: pointer;
+  transition:
+    color 0.16s ease,
+    border-color 0.16s ease,
+    background-color 0.16s ease,
+    transform 0.16s ease;
+}
+.boton-icono:hover {
+  border-color: var(--azul);
+  background: rgba(59, 130, 246, 0.14);
+  color: var(--texto);
+  transform: translateY(-1px);
+}
+
+/* ------------------------------------------------------------------------- */
+/* Páginas                                                                   */
+/* ------------------------------------------------------------------------- */
+
+.contenido {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: clip;
+  scrollbar-width: thin;
+  scrollbar-color: var(--borde-fuerte) transparent;
+}
+.pagina {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 100rem;
+  margin: 0 auto;
+  padding: 1.5714rem 1.8571rem 2rem;
+}
+.pagina-cabecera {
+  margin: 0.2857rem 0 0.1429rem;
+}
+.etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5714rem;
+  margin: 0 0 0.4286rem;
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--tenue);
+}
+.etiqueta-punto {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  flex: none;
+  background: var(--naranja);
+  box-shadow:
+    0 0 0 4px rgba(242, 140, 40, 0.2),
+    0 0 10px rgba(242, 140, 40, 0.45);
+}
+.pagina-titulo {
+  margin: 0;
+  font-size: 2.1em;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--texto);
+}
+.pagina-sub {
+  margin: 0.4286rem 0 0;
+  color: var(--tenue);
+  line-height: 1.5;
+}
+.volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2857rem;
+  align-self: flex-start;
+  padding: 0.2857rem 0.7143rem 0.2857rem 0.4286rem;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: 71.3571rem;
+  background: var(--panel-2);
+  font-size: 0.82em;
+  font-weight: 600;
+  color: var(--tenue);
+  transition:
+    border-color 0.16s ease,
+    color 0.16s ease,
+    transform 0.16s ease;
+}
+.volver:hover {
+  border-color: var(--azul);
+  color: var(--texto);
+  transform: translateX(-2px);
+}
+
+.tarjeta {
+  padding: 1.1429rem;
+  border: 1px solid var(--borde);
+  border-radius: 1rem;
+  background: rgba(17, 24, 33, 0.92);
+  box-shadow: 0 0.5rem 1.5rem -0.6rem rgba(0, 0, 0, 0.45);
+}
+.tarjeta-aviso {
+  border-style: dashed;
+  border-color: var(--borde-fuerte);
+  background: rgba(17, 24, 33, 0.55);
+  box-shadow: none;
+}
+.tarjeta-titulo {
+  display: flex;
+  align-items: center;
+  gap: 0.5714rem;
+  margin-bottom: 0.8571rem;
+}
+.tarjeta-titulo h2 {
+  flex: 1;
+  margin: 0;
+  font-size: 0.78em;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tenue);
+}
+.icono-titulo {
+  color: var(--azul-claro);
+}
+.tarjeta-extra {
+  font-size: 0.8em;
+  font-weight: 600;
+  color: var(--tenue);
+}
+.mensaje {
+  margin: 0;
+  line-height: 1.5;
+}
+.mensaje.tenue {
+  color: var(--tenue);
+}
+.mensaje.error {
+  color: var(--rojo);
+}
+
+/* Buscador. */
+.buscador {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5714rem;
+}
+.campo {
+  flex: 1;
+  min-width: 0;
+  padding: 0.7857rem 0.8571rem;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: 0.5714rem;
+  background: var(--fondo);
+  color: var(--texto);
+  font: inherit;
+  outline: none;
+  transition:
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
+}
+.campo::placeholder {
+  color: var(--muy-tenue);
+}
+.campo:focus {
+  border-color: var(--azul);
+  box-shadow: 0 0 0 1px var(--azul);
+}
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6429rem 1rem;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: 0.5714rem;
+  background: var(--panel-2);
+  color: var(--texto);
+  font: inherit;
+  font-size: 0.8em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    border-color 0.16s ease,
+    background-color 0.16s ease,
+    transform 0.16s ease,
+    box-shadow 0.16s ease;
+}
+.boton:hover {
+  border-color: var(--azul);
+  background: rgba(59, 130, 246, 0.14);
+  transform: translateY(-1px);
+}
+.boton.primario {
+  border-color: rgba(96, 165, 250, 0.4);
+  background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul) 100%);
+  color: #fff;
+}
+.boton.primario:hover {
+  background: linear-gradient(135deg, var(--azul) 0%, var(--azul-claro) 100%);
+  box-shadow: 0 0.4286rem 1.1429rem rgba(59, 130, 246, 0.28);
+}
+.boton:disabled {
+  opacity: 0.5;
+  cursor: default;
+  transform: none;
+  box-shadow: none;
+}
+.boton-ancho {
+  width: 100%;
+  margin-top: 0.8571rem;
+  padding: 0.8571rem;
+}
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5714rem;
+  margin-top: 0.8571rem;
+}
+
+/* Accesos de la portada de cada MDT. */
+.accesos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(12.1429rem, 100%), 1fr));
+  gap: 0.8571rem;
+}
+.acceso {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2857rem;
+  padding: 1.1429rem;
+  border: 1px solid var(--borde);
+  border-top: 3px solid var(--azul);
+  border-radius: 1rem;
+  background-color: var(--panel);
+  background-image: linear-gradient(
+    165deg,
+    rgba(59, 130, 246, 0.08) 0%,
+    rgba(22, 31, 42, 0.9) 48%,
+    rgba(17, 24, 33, 0.98) 100%
+  );
+  box-shadow: 0 0.5rem 1.5rem -0.6rem rgba(0, 0, 0, 0.5);
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+a.acceso:hover {
+  border-color: var(--azul-claro);
+  transform: translateY(-2px);
+  box-shadow:
+    0 1rem 2rem -0.8rem rgba(0, 0, 0, 0.65),
+    0 0 0 1px rgba(59, 130, 246, 0.28);
+}
+.acceso.proximamente {
+  opacity: 0.55;
+}
+.acceso-icono {
+  display: grid;
+  place-items: center;
+  width: 2.7143rem;
+  height: 2.7143rem;
+  margin-bottom: 0.4286rem;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: 0.7143rem;
+  background: rgba(59, 130, 246, 0.12);
+  color: var(--azul-claro);
+}
+.acceso-titulo {
+  margin: 0;
+  font-weight: 800;
+  color: var(--texto);
+}
+.acceso-texto {
+  margin: 0;
+  font-size: 0.82em;
+  line-height: 1.45;
+  color: var(--tenue);
+}
+
+/* Aplicaciones del portal: cada una con el color de su cuerpo y estilo de tarjeta de la landing. */
+.apps {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(14.2857rem, 100%), 1fr));
+  gap: 1rem;
+}
+.app {
+  --c: var(--azul);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3571rem;
+  padding: 1.3571rem 1.2857rem;
+  border: 1px solid var(--borde);
+  border-top: 4px solid var(--c);
+  border-radius: 1rem;
+  background-color: var(--panel);
+  background-image: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--c) 10%, transparent) 0%,
+    rgba(22, 31, 42, 0.9) 48%,
+    rgba(17, 24, 33, 0.98) 100%
+  );
+  box-shadow: 0 0.6429rem 1.8571rem -0.6429rem rgba(0, 0, 0, 0.55);
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+.app:hover {
+  border-color: var(--c);
+  transform: translateY(-2px);
+  box-shadow:
+    0 1.1429rem 2.2857rem -0.8571rem rgba(0, 0, 0, 0.7),
+    0 0 0 1px color-mix(in srgb, var(--c) 32%, transparent);
+}
+.app:focus-visible {
+  outline: 3px solid var(--c);
+  outline-offset: 3px;
+}
+.app-gc {
+  --c: #19a463;
+}
+.app-samu {
+  --c: var(--amarillo-samu);
+}
+.app-bombers {
+  --c: #f0514f;
+}
+.app-icono {
+  display: grid;
+  place-items: center;
+  width: 3.1429rem;
+  height: 3.1429rem;
+  margin-bottom: 0.5714rem;
+  border: 1px solid color-mix(in srgb, var(--c) 45%, transparent);
+  border-radius: 0.8571rem;
+  background: color-mix(in srgb, var(--c) 14%, transparent);
+  color: var(--c);
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease;
+}
+.app:hover .app-icono {
+  transform: scale(1.03);
+  border-color: color-mix(in srgb, var(--c) 70%, transparent);
+}
+.app-icono .icono {
+  width: 1.5714rem;
+  height: 1.5714rem;
+}
+.app-titulo {
+  margin: 0;
+  font-size: 1.18em;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--texto);
+}
+.app-texto {
+  margin: 0;
+  font-size: 0.85em;
+  line-height: 1.45;
+  color: var(--tenue);
+}
+/* «Próximamente» (el CAD mientras es solo del staff): naranja, sin enlace, borde discontinuo y pistas. */
+.app-pronto {
+  --c: var(--naranja);
+}
+.app-pronto .app-titulo {
+  color: var(--naranja);
+}
+.app.proximamente {
+  border-style: dashed;
+  border-top-style: solid;
+  cursor: default;
+}
+.app.proximamente:hover {
+  border-color: var(--borde);
+  border-top-color: var(--c);
+  transform: none;
+  box-shadow: 0 0.6429rem 1.8571rem -0.6429rem rgba(0, 0, 0, 0.55);
+}
+.app-pistas {
+  margin: 0.2857rem 0 0;
+  font-size: 1.15em;
+  letter-spacing: 0.15em;
+}
+.app-nota {
+  margin-top: 0.4286rem;
+  font-size: 0.68em;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muy-tenue);
+}
+
+/* Filas numeradas (resultados). */
+.filas {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5714rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.fila {
+  display: flex;
+  align-items: center;
+  gap: 0.8571rem;
+  padding: 0.7857rem 0.8571rem;
+  border: 1px solid var(--borde);
+  border-radius: 0.7143rem;
+  background: rgba(22, 31, 42, 0.65);
+  transition:
+    border-color 0.16s ease,
+    background-color 0.16s ease,
+    transform 0.16s ease;
+}
+.pulsable {
+  cursor: pointer;
+}
+.fila.pulsable:hover,
+.vehiculo.pulsable:hover {
+  border-color: var(--azul);
+  background: rgba(59, 130, 246, 0.1);
+  transform: translateY(-1px);
+}
+.fila-num {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: 50%;
+  background: var(--panel-2);
+  font-family: var(--fuente-mono);
+  font-size: 0.8em;
+  font-weight: 700;
+  color: var(--tenue);
+}
+.fila-textos {
+  flex: 1;
+  min-width: 0;
+}
+.fila-titulo {
+  margin: 0;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+.fila-detalle {
+  margin: 0.2143rem 0 0;
+  font-size: 0.82em;
+  color: var(--tenue);
+}
+.fila-chevron {
+  color: var(--muy-tenue);
+  transition:
+    transform 0.16s ease,
+    color 0.16s ease;
+}
+.fila.pulsable:hover .fila-chevron {
+  color: var(--azul-claro);
+  transform: translateX(3px);
+}
+.insignia {
+  flex: none;
+  padding: 0.0714rem 0.5714rem;
+  border-radius: 71.3571rem;
+  background: var(--panel-2);
+  border: 1px solid var(--borde);
+  font-size: 0.7em;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--muy-tenue);
+}
+.insignia.en-linea {
+  background: color-mix(in srgb, var(--verde) 18%, transparent);
+  border-color: color-mix(in srgb, var(--verde) 40%, transparent);
+  color: var(--verde);
+}
+.insignia.ocupado {
+  background: color-mix(in srgb, var(--naranja) 16%, transparent);
+  border-color: color-mix(in srgb, var(--naranja) 40%, transparent);
+  color: var(--naranja);
+}
+
+/* Avisos del SAMU y de Bombers. */
+.aviso {
+  --c: var(--rojo);
+  padding: 0.7857rem 0.8571rem;
+  border: 1px solid var(--borde);
+  border-left: 3px solid var(--c);
+  border-radius: 0 0.7143rem 0.7143rem 0;
+  background: rgba(22, 31, 42, 0.65);
+}
+.aviso.atendido {
+  --c: var(--ambar);
+}
+.aviso-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5714rem;
+}
+.aviso-tipo {
+  flex: 1;
+  min-width: 0;
+  font-weight: 700;
+}
+.aviso-num {
+  font-family: var(--fuente-mono);
+  font-size: 0.8em;
+  color: var(--muy-tenue);
+}
+.aviso-desc {
+  margin: 0.4286rem 0 0;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+.aviso-unidades {
+  margin-top: 0.5714rem;
+}
+.chip.propia {
+  border-color: color-mix(in srgb, var(--azul-claro) 60%, transparent);
+  color: var(--texto);
+}
+.mensaje.nota {
+  margin-top: 0.7143rem;
+  font-size: 0.75em;
+  color: var(--muy-tenue);
+}
+
+/* Locales de Bombers. */
+.local {
+  padding: 0.7857rem 0.8571rem;
+  border: 1px solid var(--borde);
+  border-left: 3px solid var(--naranja);
+  border-radius: 0 0.7143rem 0.7143rem 0;
+  background: rgba(22, 31, 42, 0.65);
+}
+.local.libre {
+  border-left-color: var(--borde-fuerte);
+}
+.local-empresa {
+  margin: 0.4286rem 0 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.local .acciones {
+  margin-top: 0.5714rem;
+}
+
+/* Inspecciones de locales. */
+.estado.insp-al-dia,
+.estado.insp-apto {
+  --c: var(--verde);
+}
+.estado.insp-deficiencias,
+.estado.insp-caducada {
+  --c: var(--ambar);
+}
+.estado.insp-no-apto {
+  --c: var(--rojo);
+}
+.local-inspeccion {
+  margin: 0.4286rem 0 0;
+  font-size: 0.82em;
+  color: var(--tenue);
+  overflow-wrap: anywhere;
+}
+.local-inspeccion.al-dia {
+  color: var(--verde);
+}
+.local-inspeccion.deficiencias,
+.local-inspeccion.caducada {
+  color: var(--ambar);
+}
+.local-inspeccion.no-apto {
+  color: var(--rojo);
+}
+.local-notas {
+  margin: 0.2143rem 0 0;
+  font-size: 0.82em;
+  color: var(--tenue);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.local-historial {
+  margin-top: 0.5714rem;
+}
+.inspeccion {
+  --c: var(--verde);
+  padding: 0.7143rem 0.8571rem;
+  border: 1px solid var(--borde);
+  border-left: 3px solid var(--c);
+  border-radius: 0 0.7143rem 0.7143rem 0;
+  background: rgba(22, 31, 42, 0.55);
+}
+.inspeccion.deficiencias {
+  --c: var(--ambar);
+}
+.inspeccion.no-apto {
+  --c: var(--rojo);
+}
+
+/* Vehículos. */
+.vehiculo {
+  padding: 0.7857rem 0.8571rem;
+  border: 1px solid var(--borde);
+  border-left: 3px solid var(--azul);
+  border-radius: 0 0.7143rem 0.7143rem 0;
+  background: rgba(22, 31, 42, 0.65);
+  transition:
+    border-color 0.16s ease,
+    background-color 0.16s ease,
+    transform 0.16s ease;
+}
+.vehiculo-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5714rem;
+}
+.vehiculo-modelo {
+  flex: 1;
+  min-width: 0;
+  font-weight: 700;
+}
+.vehiculo-titular {
+  margin: 0.4286rem 0 0;
+}
+.vehiculo-doc {
+  margin: 0.2143rem 0 0;
+  font-size: 0.75em;
+  color: var(--muy-tenue);
+}
+/* Matrícula con aspecto de placa. */
+.matricula {
+  flex: none;
+  padding: 0.0714rem 0.5714rem;
+  border: 1px solid #c9d2dd;
+  border-radius: 0.2857rem;
+  background: #eef2f7;
+  color: #0d1219;
+  font-family: var(--fuente-mono);
+  font-size: 0.86em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.color {
+  display: inline-block;
+  width: 0.7143rem;
+  height: 0.7143rem;
+  margin-right: 0.4286rem;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: 50%;
+  vertical-align: -1px;
+}
+.color.sin-color {
+  background: repeating-linear-gradient(45deg, var(--panel-2) 0 0.1429rem, var(--borde-fuerte) 0.1429rem 0.2857rem);
+}
+
+/* Ficha. */
+.perfil {
+  display: flex;
+  align-items: center;
+  gap: 1.1429rem;
+  border-top: 3px solid var(--azul);
+}
+.foto {
+  flex: none;
+  width: 6rem;
+  height: 6rem;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: 0.8571rem;
+  background: var(--panel-2);
+  object-fit: cover;
+}
+.sin-foto {
+  display: grid;
+  place-items: center;
+  font-size: 2em;
+  font-weight: 800;
+  color: var(--tenue);
+}
+.identidad {
+  min-width: 0;
+}
+.identidad-doc {
+  margin: 0;
+  font-family: var(--fuente-mono);
+  font-size: 0.85em;
+  letter-spacing: 0.06em;
+  color: var(--tenue);
+}
+.identidad-nombre {
+  margin: 0.1429rem 0 0.5714rem;
+  font-size: 1.7em;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+.columnas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+.columna {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+}
+.datos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8571rem 1.1429rem;
+}
+.dato {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.dato-etiqueta {
+  font-size: 0.68em;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muy-tenue);
+}
+.dato-valor {
+  margin-top: 0.1429rem;
+  overflow-wrap: anywhere;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4286rem;
+}
+.chip {
+  padding: 0.2143rem 0.6429rem;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: 0.4286rem;
+  background: var(--panel-2);
+  font-size: 0.8em;
+  color: var(--tenue);
+}
+.multa {
+  --c: var(--muy-tenue);
+  padding: 0.7143rem 0.8571rem;
+  border: 1px solid var(--borde);
+  border-left: 3px solid var(--c);
+  border-radius: 0 0.7143rem 0.7143rem 0;
+  background: rgba(22, 31, 42, 0.55);
+}
+.multa.pendiente {
+  --c: var(--rojo);
+  background: rgba(229, 72, 77, 0.08);
+}
+.multa-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 0.5714rem;
+}
+.multa-importe {
+  flex: 1;
+  font-weight: 700;
+}
+.multa-motivo {
+  margin: 0.3571rem 0 0;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+.estado {
+  flex: none;
+  padding: 0 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--c, var(--muy-tenue)) 55%, transparent);
+  border-radius: 0.2857rem;
+  font-size: 0.66em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.8;
+  text-transform: uppercase;
+  color: var(--c, var(--muy-tenue));
+}
+
+/* ------------------------------------------------------------------------- */
+/* Acceso (estilo tarjeta de Emergencias de la landing)                      */
+/* ------------------------------------------------------------------------- */
+
+.login {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 1.4286rem;
+  overflow-y: auto;
+}
+.login-tarjeta {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: min(28.5714rem, 100%);
+  padding: 1.8571rem 1.7143rem;
+  border: 1px solid var(--borde);
+  border-radius: 1rem;
+  background-color: var(--panel);
+  background-image: linear-gradient(
+    165deg,
+    rgba(59, 130, 246, 0.1) 0%,
+    rgba(22, 31, 42, 0.92) 48%,
+    rgba(17, 24, 33, 0.98) 100%
+  );
+  box-shadow: 0 0.7143rem 2.1429rem -0.7143rem rgba(0, 0, 0, 0.65);
+}
+/* Franja superior tricolor en degradado (o del cuerpo activo en su MDT). */
+.login-tarjeta::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--verde-gc) 0%, var(--amarillo-samu) 50%, var(--rojo-bombers) 100%);
+}
+.pantalla:has(#franja.franja-gc) .login-tarjeta::before {
+  background: linear-gradient(90deg, var(--verde-gc) 0%, #19a463 100%);
+}
+.pantalla:has(#franja.franja-samu) .login-tarjeta::before {
+  background: linear-gradient(90deg, var(--amarillo-samu) 0%, var(--verde-samu) 100%);
+}
+.pantalla:has(#franja.franja-bombers) .login-tarjeta::before {
+  background: linear-gradient(90deg, var(--rojo-bombers) 0%, #f0514f 100%);
+}
+.login-logo {
+  width: 4.4286rem;
+  height: 4.4286rem;
+  margin-bottom: 0.8571rem;
+  object-fit: contain;
+  filter: drop-shadow(0 0.2857rem 0.7143rem rgba(0, 0, 0, 0.45));
+}
+.login-titulo {
+  margin: 0 0 0.5714rem;
+  font-size: clamp(1.35rem, 4.5vw, 2rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  overflow-wrap: anywhere;
+  color: var(--texto);
+}
+.login-texto {
+  margin: 0 0 1.1429rem;
+  line-height: 1.5;
+  color: var(--tenue);
+}
+.campo-etiqueta {
+  margin-bottom: 0.4286rem;
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muy-tenue);
+}
+.campo-codigo {
+  text-align: center;
+  font-family: var(--fuente-mono);
+  font-size: 1.15em;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.login-aviso {
+  min-height: 1.2em;
+  margin: 0.7143rem 0 0;
+  font-size: 0.85em;
+  color: var(--tenue);
+}
+
+/* ------------------------------------------------------------------------- */
+/* Barra de navegación (abajo, como en una app)                              */
+/* ------------------------------------------------------------------------- */
+
+.navegacion {
+  flex: none;
+  display: flex;
+  justify-content: center;
+  gap: 0.4286rem;
+  padding: 0.5714rem 0.8571rem calc(0.5714rem + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--borde);
+  background: rgba(17, 24, 33, 0.94);
+}
+.navegacion a,
+.navegacion button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2143rem;
+  min-width: 6.1429rem;
+  padding: 0.4286rem 0.7143rem;
+  border: none;
+  border-top: 2px solid transparent;
+  border-radius: 0 0 0.5714rem 0.5714rem;
+  background: transparent;
+  color: var(--muy-tenue);
+  font: inherit;
+  font-size: 0.7em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    color 0.16s ease,
+    border-color 0.16s ease,
+    background-color 0.16s ease;
+}
+.navegacion a:hover,
+.navegacion button:hover {
+  color: var(--texto);
+  background: rgba(59, 130, 246, 0.08);
+}
+.navegacion a.activa {
+  border-top-color: var(--azul);
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--texto);
+}
+.navegacion .icono {
+  width: 1.4286rem;
+  height: 1.4286rem;
+}
+.navegacion a.activa .icono {
+  color: var(--azul-claro);
+}
+
+/* Registro del concesionario: páginas. */
+.registro-cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7143rem;
+  margin-top: 0.8571rem;
+}
+.paginacion {
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4286rem;
+}
+.paginacion .boton {
+  padding-left: 0.7143rem;
+  padding-right: 0.7143rem;
+}
+.paginacion-texto {
+  font-size: 0.8em;
+  color: var(--tenue);
+}
+.boton.desactivado {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* Documentación de un coche (concesionario). */
+.vehiculo-doc.en-regla {
+  color: var(--verde);
+}
+.vehiculo-doc.sin-documentacion {
+  color: var(--ambar);
+  font-weight: 700;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Informes                                                                  */
+/* ------------------------------------------------------------------------- */
+
+.tarjeta-exito {
+  border-color: color-mix(in srgb, var(--verde) 55%, transparent);
+  background: color-mix(in srgb, var(--verde) 8%, var(--panel));
+}
+.tarjeta-alerta {
+  border-color: color-mix(in srgb, var(--ambar) 60%, transparent);
+  background: color-mix(in srgb, var(--ambar) 8%, var(--panel));
+}
+.enlace {
+  color: var(--azul-claro);
+  text-decoration: underline;
+  overflow-wrap: anywhere;
+}
+
+/* Documento firmado. */
+.documento {
+  border-top: 3px solid var(--azul);
+}
+.documento-cabecera {
+  padding-bottom: 0.8571rem;
+  margin-bottom: 0.8571rem;
+  border-bottom: 1px solid var(--borde);
+}
+.documento-titulos .etiqueta {
+  margin: 0;
+}
+.documento-titulo {
+  margin: 0.2857rem 0 0;
+  font-size: 1.45em;
+  font-weight: 800;
+}
+.documento-num {
+  margin: 0.2143rem 0 0;
+  font-family: var(--fuente-mono);
+  font-weight: 700;
+  color: var(--azul-claro);
+}
+.lineas-informe {
+  margin-top: 1rem;
+}
+.linea-informe {
+  display: grid;
+  grid-template-columns: 9.5rem 1fr;
+  gap: 0.8571rem;
+  padding: 0.6429rem 0;
+  border-top: 1px solid var(--borde);
+}
+.linea-etiqueta {
+  font-size: 0.68em;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muy-tenue);
+  padding-top: 0.2143rem;
+}
+.linea-valor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2143rem;
+  line-height: 1.5;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+.documento-pie {
+  margin: 1rem 0 0;
+  font-size: 0.72em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muy-tenue);
+}
+
+/* Formulario. */
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.formulario .tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8571rem;
+}
+.formulario .tarjeta-titulo {
+  margin-bottom: 0;
+}
+.formulario .mensaje.nota {
+  margin-top: 0;
+}
+.campo-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3571rem;
+  min-width: 0;
+}
+.campo-etiqueta {
+  font-size: 0.68em;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tenue);
+}
+.campo-ayuda {
+  font-size: 0.75em;
+  color: var(--muy-tenue);
+}
+.rejilla-campos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(13rem, 100%), 1fr));
+  gap: 0.8571rem;
+}
+textarea.campo {
+  min-height: 6rem;
+  resize: vertical;
+  line-height: 1.45;
+}
+select.campo {
+  cursor: pointer;
+}
+.area-con-contador {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2143rem;
+}
+.contador {
+  align-self: flex-end;
+  font-family: var(--fuente-mono);
+  font-size: 0.7em;
+  color: var(--muy-tenue);
+}
+.casilla {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6429rem;
+  line-height: 1.4;
+  cursor: pointer;
+}
+.casilla input {
+  flex: none;
+  width: 1.1429rem;
+  height: 1.1429rem;
+  margin: 0.1429rem 0 0;
+  accent-color: var(--azul);
+}
+.separador {
+  height: 1px;
+  background: var(--borde);
+}
+.lineas-articulos {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5714rem;
+  align-items: flex-start;
+}
+.linea-articulo {
+  display: grid;
+  grid-template-columns: 7rem 1fr 8rem auto;
+  gap: 0.5rem;
+  width: 100%;
+}
+.linea-articulo.sin-importe {
+  grid-template-columns: 7rem 1fr auto;
+}
+.total {
+  margin: 0;
+  font-weight: 800;
+  color: var(--naranja);
+}
+.pruebas {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4286rem;
+}
+.selector-persona {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7143rem;
+}
+.selector-cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7143rem;
+}
+.persona-elegida {
+  display: flex;
+  align-items: center;
+  gap: 0.7143rem;
+  padding: 0.7143rem 0.8571rem;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: 0.5714rem;
+  background: var(--panel-2);
+}
+.persona-elegida .icono {
+  color: var(--azul-claro);
+}
+.persona-nombre {
+  flex: 1;
+  min-width: 0;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Pantallas pequeñas: sin bisel                                             */
+/* ------------------------------------------------------------------------- */
+
+@media (max-width: 760px), (max-height: 560px) {
+  .escritorio {
+    background: var(--fondo);
+  }
+  .tablet {
+    padding: 0;
+    background: var(--fondo);
+    box-shadow: none;
+  }
+  .camara {
+    display: none;
+  }
+  .pantalla {
+    border: none;
+    border-radius: 0;
+  }
+  .columnas {
+    grid-template-columns: 1fr;
+  }
+  /* Artículo, importe y quitar arriba; la descripción, debajo a lo ancho. */
+  .linea-articulo {
+    grid-template-columns: 1fr 1fr auto;
+  }
+  .linea-articulo.sin-importe {
+    grid-template-columns: 1fr auto;
+  }
+  .linea-articulo .campo:nth-child(2) {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+  .linea-informe {
+    grid-template-columns: 1fr;
+    gap: 0.2143rem;
+  }
+}
+@media (max-width: 480px) {
+  .barra-estado {
+    display: none;
+  }
+  .cabecera {
+    padding: 0.7143rem 1rem;
+  }
+  .pagina {
+    padding: 1.1429rem 1rem 1.5714rem;
+  }
+  .pagina-titulo {
+    font-size: 1.7em;
+  }
+  .marca-texto,
+  .agente {
+    display: none;
+  }
+  .login {
+    padding: 0.8571rem;
+  }
+  .login-tarjeta {
+    padding: 1.3571rem 1.1429rem;
+  }
+  .datos {
+    grid-template-columns: 1fr;
+  }
+  /* Hasta cinco secciones en el móvil: más estrechas y sin el espaciado de letras. */
+  .navegacion {
+    gap: 0;
+    padding-left: 0.2857rem;
+    padding-right: 0.2857rem;
+  }
+  .navegacion a,
+  .navegacion button {
+    min-width: 0;
+    flex: 1;
+    padding-left: 0.1429rem;
+    padding-right: 0.1429rem;
+    font-size: 0.62em;
+    letter-spacing: 0.02em;
+  }
+  .perfil {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Aviso de derechos en la pantalla de acceso (ver LICENSE). */
+.legal {
+  margin: 1rem 0 0;
+  font-size: 0.72em;
+  letter-spacing: 0.04em;
+  text-align: center;
+  color: var(--muy-tenue);
+}
+
+/* ------------------------------------------------------------------------- */
+/* Requisitorias y datos clínicos                                            */
+/* ------------------------------------------------------------------------- */
+
+.requisitoria.activa {
+  border-color: color-mix(in srgb, var(--rojo) 60%, transparent);
+  background: color-mix(in srgb, var(--rojo) 8%, var(--panel));
+}
+.requisitoria-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.requisitoria-num {
+  font-weight: 700;
+}
+.requisitoria-persona {
+  display: block;
+  margin-bottom: 0.3571rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+a.requisitoria-persona {
+  color: var(--azul-claro);
+  text-decoration: underline;
+}
+.requisitoria-motivo {
+  margin-bottom: 0.3571rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.requisitoria .acciones {
+  margin-top: 0.7143rem;
+}
+.formulario-corto {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.5714rem;
+}
+.estado.activa {
+  --c: var(--rojo);
+}
+.estado.ejecutada {
+  --c: var(--verde);
+}
+.estado.anulada {
+  --c: var(--muy-tenue);
+}
+.insignias {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.3571rem;
+}
+.insignia.buscado {
+  background: color-mix(in srgb, var(--rojo) 18%, transparent);
+  border-color: color-mix(in srgb, var(--rojo) 40%, transparent);
+  color: var(--rojo);
+}
+.clinico-alergias {
+  margin: 0.7143rem 0 0.2857rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.clinico-alergias.hay {
+  color: var(--ambar);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

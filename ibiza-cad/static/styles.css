@@ -1,0 +1,891 @@
+/*
+ * CAD · Ibiza Roleplay
+ * Mismo estilo que el overlay: sobrio, en la línea de Origen Network. Azul pizarra casi negro,
+ * bordes finos, azul como color principal (policía), naranja de acento (bomberos, atendido) y
+ * rojo reservado para los avisos. Nada se anima de forma continua.
+ */
+
+:root {
+  --fondo: #0d1219;
+  --panel: #111821;
+  --panel-2: #161f2a;
+  --borde: #222d3a;
+  --borde-fuerte: #2e3b4b;
+  --azul: #3b82f6;
+  --azul-oscuro: #2563eb;
+  --naranja: #f28c28;
+  --rojo: #e5484d;
+  --verde: #3fb67a;
+  --ambar: #e2a43b;
+  --texto: #e7ecf2;
+  --tenue: #9aa6b4;
+  --muy-tenue: #687585;
+  --radio: 10px;
+  --fuente: 'Segoe UI', 'Segoe UI Variable', system-ui, -apple-system, 'Roboto', sans-serif;
+  --fuente-mono: 'Cascadia Mono', Consolas, 'SF Mono', 'Roboto Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: var(--fuente);
+  font-size: 14px;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Cabecera                                                                  */
+/* ------------------------------------------------------------------------- */
+
+.cabecera {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 10px 16px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--borde);
+  /* Fina línea naranja: el único toque de color de la cabecera. */
+  box-shadow: inset 0 -2px 0 -1px var(--naranja);
+}
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-servidor:not(.logo) {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+.insignia {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  background: var(--azul-oscuro);
+  font-weight: 800;
+  font-size: 0.82em;
+  letter-spacing: 0.04em;
+}
+body.con-logo .insignia {
+  display: none;
+}
+.marca-texto {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.05;
+}
+.marca-titulo {
+  font-weight: 800;
+  font-size: 1.15em;
+  letter-spacing: 0.18em;
+}
+.marca-sub {
+  font-size: 0.7em;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--naranja);
+}
+
+.cabecera-estado {
+  display: flex;
+  gap: 8px;
+}
+.pastilla {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  font-size: 0.8em;
+  font-weight: 600;
+  color: var(--tenue);
+  background: rgba(255, 255, 255, 0.02);
+}
+.punto {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--muy-tenue);
+}
+.pastilla.conectado {
+  color: var(--verde);
+}
+.pastilla.conectado .punto {
+  background: var(--verde);
+}
+.pastilla.conectando .punto,
+.pastilla.reconectando .punto,
+.pastilla.erlc.aviso-erlc .punto {
+  background: var(--ambar);
+}
+.pastilla.erlc.ok .punto {
+  background: var(--verde);
+}
+.pastilla.erlc.mal .punto {
+  background: var(--rojo);
+}
+
+.contadores {
+  display: flex;
+  gap: 14px;
+  margin-left: auto;
+}
+.contador {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 3px 10px;
+  border-left: 2px solid var(--azul);
+  background: rgba(255, 255, 255, 0.025);
+  border-radius: 0 6px 6px 0;
+}
+.contador:nth-child(2) {
+  border-left-color: var(--naranja);
+}
+.contador-avisos {
+  border-left-color: var(--rojo);
+}
+.contador-num {
+  font-family: var(--fuente-mono);
+  font-weight: 700;
+  font-size: 1.1em;
+}
+.contador-txt {
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tenue);
+}
+
+.cabecera-acciones {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+body.sin-sesion .contadores ~ .cabecera-acciones,
+body.sin-sesion .cabecera-acciones {
+  margin-left: auto;
+}
+.mi-nombre {
+  margin-right: 6px;
+  font-size: 0.78em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tenue);
+}
+.boton-icono {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 7px;
+  border: 1px solid var(--borde);
+  background: transparent;
+  color: var(--tenue);
+  cursor: pointer;
+  transition:
+    color 0.12s ease,
+    border-color 0.12s ease,
+    background 0.12s ease;
+}
+.boton-icono:hover {
+  color: #fff;
+  border-color: var(--azul);
+  background: rgba(59, 130, 246, 0.12);
+}
+.boton-icono.activo {
+  color: #fff;
+  border-color: var(--naranja);
+  background: rgba(242, 140, 40, 0.14);
+}
+.icono {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Cuerpo: mapa + panel lateral                                              */
+/* ------------------------------------------------------------------------- */
+
+.cuerpo {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+.mapa {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  background: #0a0f15;
+  overflow: hidden;
+}
+#lienzo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  /* El arrastre y el pellizco los gestiona el mapa, no el navegador. */
+  touch-action: none;
+}
+#lienzo.arrastrando {
+  cursor: grabbing;
+}
+#lienzo.sobre-marcador {
+  cursor: pointer;
+}
+.mapa-estado {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 7px 14px;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: 8px;
+  background: rgba(13, 18, 25, 0.92);
+  font-size: 0.85em;
+  color: var(--tenue);
+}
+.info {
+  position: absolute;
+  z-index: 2;
+  max-width: 280px;
+  padding: 8px 10px;
+  border: 1px solid var(--borde-fuerte);
+  border-left: 2px solid var(--c, var(--azul));
+  border-radius: 0 7px 7px 0;
+  background: rgba(13, 18, 25, 0.95);
+  font-size: 0.82em;
+  line-height: 1.4;
+  pointer-events: none;
+}
+.info-titulo {
+  font-weight: 700;
+}
+.info-linea {
+  color: var(--tenue);
+}
+.leyenda {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  display: flex;
+  gap: 12px;
+  padding: 6px 10px;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  background: rgba(13, 18, 25, 0.88);
+  font-size: 0.75em;
+  color: var(--tenue);
+}
+.leyenda span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.punto-leyenda {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1.5px solid #0a0f15;
+}
+.punto-leyenda.policia {
+  background: var(--azul);
+}
+.punto-leyenda.bomberos {
+  background: var(--naranja);
+}
+.punto-leyenda.ocupada {
+  background: var(--tenue);
+  box-shadow: 0 0 0 2px #fff;
+}
+.punto-leyenda.tu {
+  background: var(--verde);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--verde) 35%, transparent);
+}
+.punto-leyenda.rombo {
+  width: 7px;
+  height: 7px;
+  background: var(--rojo);
+  border-radius: 1px;
+  transform: rotate(45deg);
+}
+.zoom {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.zoom .boton-icono {
+  background: rgba(13, 18, 25, 0.9);
+}
+
+.lateral {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+  border-left: 1px solid var(--borde);
+  background: var(--panel);
+}
+.pestanas {
+  display: flex;
+  border-bottom: 1px solid var(--borde);
+}
+.pestana {
+  flex: 1;
+  padding: 11px 8px 10px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  font-size: 0.78em;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tenue);
+  cursor: pointer;
+}
+.pestana:hover {
+  color: var(--texto);
+}
+.pestana.activa {
+  color: var(--texto);
+  border-bottom-color: var(--naranja);
+}
+.pestana-num {
+  margin-left: 4px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--panel-2);
+  font-family: var(--fuente-mono);
+  letter-spacing: 0;
+}
+.panel-lista {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--borde-fuerte) transparent;
+}
+.lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.vacio {
+  margin: 30px 10px;
+  text-align: center;
+  font-size: 0.85em;
+  color: var(--muy-tenue);
+}
+
+/* Tarjeta de aviso: barra lateral roja (abierto), naranja (atendido) o apagada (cerrado). */
+.tarjeta {
+  --c: var(--rojo);
+  margin-bottom: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--borde);
+  border-left: 3px solid var(--c);
+  border-radius: 0 8px 8px 0;
+  background: rgba(255, 255, 255, 0.025);
+  cursor: pointer;
+}
+.tarjeta:hover {
+  border-color: var(--borde-fuerte);
+  border-left-color: var(--c);
+}
+.tarjeta.abierto {
+  background: rgba(229, 72, 77, 0.09);
+}
+.tarjeta.atendido {
+  --c: var(--naranja);
+}
+.tarjeta.cerrado {
+  --c: var(--muy-tenue);
+  opacity: 0.6;
+}
+.tarjeta.seleccionada {
+  border-color: color-mix(in srgb, var(--c) 60%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--c) 40%, transparent);
+}
+.tarjeta-cabecera {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.tarjeta-num {
+  font-family: var(--fuente-mono);
+  font-weight: 700;
+  color: var(--c);
+}
+.tarjeta-tipo {
+  flex: 1;
+  min-width: 0;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tarjeta-hora {
+  flex: none;
+  font-family: var(--fuente-mono);
+  font-size: 0.75em;
+  color: var(--muy-tenue);
+}
+.estado {
+  flex: none;
+  padding: 0 7px;
+  border: 1px solid color-mix(in srgb, var(--c) 55%, transparent);
+  border-radius: 4px;
+  font-size: 0.66em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.7;
+  text-transform: uppercase;
+  color: var(--c);
+}
+.tarjeta-ubicacion {
+  margin: 5px 0 0;
+  font-size: 0.8em;
+  color: var(--tenue);
+}
+.tarjeta-texto {
+  margin: 5px 0 0;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.tarjeta-llamante {
+  margin: 4px 0 0;
+  font-size: 0.78em;
+  color: var(--muy-tenue);
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 7px;
+}
+.chip {
+  padding: 1px 7px;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: 4px;
+  font-size: 0.74em;
+  color: var(--tenue);
+}
+.chip.policia {
+  border-color: color-mix(in srgb, var(--azul) 50%, transparent);
+}
+.chip.bomberos {
+  border-color: color-mix(in srgb, var(--naranja) 50%, transparent);
+}
+.chip.sanitarios {
+  border-color: color-mix(in srgb, var(--rojo) 55%, transparent);
+}
+.tarjeta-acciones {
+  display: flex;
+  gap: 6px;
+  margin-top: 9px;
+}
+.boton {
+  padding: 5px 12px;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: 6px;
+  background: transparent;
+  font-size: 0.78em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.boton:hover {
+  border-color: var(--azul);
+  background: rgba(59, 130, 246, 0.12);
+}
+.boton.primario {
+  border-color: var(--azul-oscuro);
+  background: var(--azul-oscuro);
+  color: #fff;
+}
+.boton.primario:hover {
+  background: var(--azul);
+}
+.boton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Fila de unidad. */
+.grupo {
+  margin: 4px 2px 6px;
+  font-size: 0.7em;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muy-tenue);
+}
+.unidad {
+  --c: var(--azul);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 4px;
+  padding: 7px 10px;
+  border-left: 2px solid var(--c);
+  border-radius: 0 6px 6px 0;
+  background: rgba(255, 255, 255, 0.025);
+  cursor: pointer;
+}
+.unidad:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+.unidad.bomberos {
+  --c: var(--naranja);
+}
+.unidad-datos {
+  flex: 1;
+  min-width: 0;
+}
+.unidad-nombre {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.unidad-indicativo {
+  margin-right: 6px;
+  font-family: var(--fuente-mono);
+  font-weight: 700;
+  color: var(--c);
+}
+.unidad-ubicacion {
+  font-size: 0.76em;
+  color: var(--muy-tenue);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.unidad-estado {
+  flex: none;
+  font-size: 0.72em;
+  font-weight: 700;
+  color: var(--verde);
+}
+.unidad-estado.ocupada {
+  color: var(--naranja);
+}
+
+.aviso {
+  min-height: 1.2em;
+  margin: 0;
+  padding: 6px 12px 8px;
+  border-top: 1px solid var(--borde);
+  font-size: 0.8em;
+  color: var(--ambar);
+}
+
+/* ------------------------------------------------------------------------- */
+/* Acceso                                                                    */
+/* ------------------------------------------------------------------------- */
+
+.login {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+.login-tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  max-width: 400px;
+  padding: 26px 24px 20px;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  background: var(--panel);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+.logo {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 4px;
+  object-fit: contain;
+}
+.login-titulo {
+  margin: 0;
+  text-align: center;
+  font-size: 1.6em;
+  font-weight: 800;
+  letter-spacing: 0.3em;
+}
+.login-sub {
+  margin: 0 0 10px;
+  text-align: center;
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--naranja);
+}
+.login-texto {
+  margin: 0 0 8px;
+  font-size: 0.88em;
+  line-height: 1.5;
+  color: var(--tenue);
+}
+.login-texto code {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--panel-2);
+  font-family: var(--fuente-mono);
+  color: var(--texto);
+}
+.campo-etiqueta {
+  margin-top: 6px;
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muy-tenue);
+}
+.campo {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--borde-fuerte);
+  background: var(--fondo);
+  color: var(--texto);
+  font: inherit;
+  outline: none;
+}
+.campo:focus {
+  border-color: var(--azul);
+  box-shadow: 0 0 0 1px var(--azul);
+}
+.campo-codigo {
+  text-align: center;
+  font-family: var(--fuente-mono);
+  font-size: 1.15em;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.boton-principal {
+  margin-top: 12px;
+  padding: 11px;
+  border: none;
+  border-radius: 6px;
+  background: var(--azul-oscuro);
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.boton-principal:hover {
+  background: var(--azul);
+}
+.login .aviso {
+  border-top: none;
+  padding: 6px 0 0;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Tu posición                                                               */
+/* ------------------------------------------------------------------------- */
+
+.tarjeta-yo {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: min(460px, calc(100% - 28px));
+  padding: 6px 11px;
+  border: 1px solid var(--borde);
+  border-left: 2px solid var(--verde);
+  border-radius: 0 8px 8px 0;
+  background: rgba(13, 18, 25, 0.9);
+  font-size: 0.8em;
+  color: var(--tenue);
+}
+#yo-texto {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.unidad-tu {
+  margin-left: 6px;
+  padding: 0 6px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--verde) 22%, transparent);
+  color: var(--verde);
+  font-size: 0.78em;
+  font-weight: 700;
+}
+.boton-icono:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Ventana flotante                                                          */
+/* ------------------------------------------------------------------------- */
+
+.aviso-flotante {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+.aviso-flotante .login-titulo {
+  font-size: 1.1em;
+  letter-spacing: 0.04em;
+}
+body.flotante .cuerpo {
+  height: 100%;
+}
+body.flotante .leyenda {
+  display: none;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Marca del MDT («Ver en el CAD»)                                           */
+/* ------------------------------------------------------------------------- */
+
+.tarjeta-marca {
+  position: absolute;
+  top: 52px;
+  left: 14px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: min(460px, calc(100% - 28px));
+  padding: 5px 6px 5px 11px;
+  border: 1px solid var(--borde);
+  border-left: 2px solid #a855f7;
+  border-radius: 0 8px 8px 0;
+  background: rgba(13, 18, 25, 0.92);
+  font-size: 0.8em;
+  color: var(--tenue);
+}
+#marca-texto {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.punto-leyenda.mdt {
+  background: #a855f7;
+}
+.quitar-marca {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--tenue);
+  cursor: pointer;
+}
+.quitar-marca:hover {
+  border-color: #a855f7;
+  color: var(--texto);
+}
+
+/* ------------------------------------------------------------------------- */
+/* Pantallas estrechas: móvil y ventana flotante                             */
+/* ------------------------------------------------------------------------- */
+
+@media (max-width: 820px) {
+  .cuerpo {
+    flex-direction: column;
+  }
+  .lateral {
+    width: auto;
+    height: 40%;
+    border-left: none;
+    border-top: 1px solid var(--borde);
+  }
+  .contadores,
+  .mi-nombre,
+  .marca-sub {
+    display: none;
+  }
+  .cabecera {
+    gap: 10px;
+    padding: 8px 12px;
+  }
+  .pastilla {
+    white-space: nowrap;
+  }
+}
+
+/* Móviles estrechos (375 px): fuera el texto de la marca para que quepan los botones. */
+@media (max-width: 420px) {
+  .marca-texto {
+    display: none;
+  }
+  .leyenda {
+    flex-wrap: wrap;
+    right: 64px;
+    gap: 6px 10px;
+  }
+  .tarjeta-yo {
+    top: 8px;
+    left: 8px;
+  }
+}
+
+/* Aviso de derechos en la pantalla de acceso (ver LICENSE). */
+.legal {
+  margin: 14px 0 0;
+  font-size: 0.7em;
+  letter-spacing: 0.04em;
+  text-align: center;
+  color: var(--muy-tenue);
+}
+/* Al pie del panel lateral: siempre a la vista con la sesión iniciada. */
+.legal-lateral {
+  margin: 0;
+  padding: 0 12px 8px;
+}

@@ -1,0 +1,22 @@
+{
+  "name": "ibiza-cad",
+  "version": "0.2.0",
+  "description": "CAD de Ibiza Roleplay: web con el mapa de ER:LC, las unidades de emergencias y los avisos en directo. La sirve el bot en /cad/.",
+  "private": true,
+  "license": "UNLICENSED",
+  "author": "Ibiza Roleplay",
+  "scripts": {
+    "build": "node scripts/build-web.mjs",
+    "typecheck": "tsc -p ."
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "socket.io-client": "^4.8.4"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.12",
+    "typescript": "^5.9.3"
+  }
+}

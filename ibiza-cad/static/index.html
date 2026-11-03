@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0d1219" />
+    <!-- La CSP la manda el bot en la cabecera: solo nuestros archivos, conexión solo al mismo origen. -->
+    <title>CAD · Ibiza Roleplay</title>
+    <link rel="icon" href="logo.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="sin-sesion">
+    <header class="cabecera">
+      <div class="marca">
+        <img class="logo-servidor" src="logo.png" alt="Ibiza Roleplay" hidden />
+        <span class="insignia" aria-hidden="true">IR</span>
+        <div class="marca-texto">
+          <span class="marca-titulo">CAD</span>
+          <span class="marca-sub">Ibiza Roleplay</span>
+        </div>
+      </div>
+      <div class="cabecera-estado">
+        <span id="conexion" class="pastilla conexion desconectado" title="Conexión con el bot"><span class="punto" aria-hidden="true"></span><span id="conexion-texto">Desconectado</span></span>
+        <span id="erlc" class="pastilla erlc" title="Servidor de ER:LC" hidden><span class="punto" aria-hidden="true"></span><span id="erlc-texto">ER:LC</span></span>
+      </div>
+      <div class="contadores" id="contadores" hidden>
+        <span class="contador"><span class="contador-num" id="num-policia">0</span><span class="contador-txt">Policía</span></span>
+        <span class="contador"><span class="contador-num" id="num-bomberos">0</span><span class="contador-txt">Bomberos</span></span>
+        <span class="contador contador-avisos"><span class="contador-num" id="num-avisos">0</span><span class="contador-txt">Avisos</span></span>
+      </div>
+      <div class="cabecera-acciones">
+        <span id="mi-nombre" class="mi-nombre"></span>
+        <button id="btn-emergencias" class="boton-icono" type="button" title="Emergencias (portal con los MDT)" hidden>
+          <svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1.5" /><rect x="14" y="4" width="6" height="6" rx="1.5" /><rect x="4" y="14" width="6" height="6" rx="1.5" /><rect x="14" y="14" width="6" height="6" rx="1.5" /></svg>
+        </button>
+        <button id="btn-flotante" class="boton-icono" type="button" title="Ventana flotante (siempre encima)" hidden>
+          <svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2" /><rect x="12" y="12" width="7" height="6" rx="1" /></svg>
+        </button>
+        <button id="btn-salir" class="boton-icono" type="button" title="Cerrar sesión" hidden>
+          <svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 17l5-5-5-5M15 12H3" /></svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="pantalla-cad" class="cuerpo" hidden>
+      <section class="mapa" id="mapa">
+        <canvas id="lienzo" aria-label="Mapa de ER:LC con unidades y avisos"></canvas>
+        <div id="mapa-estado" class="mapa-estado" hidden></div>
+        <div id="yo" class="tarjeta-yo" role="status" hidden><span class="punto-leyenda tu" aria-hidden="true"></span><span id="yo-texto"></span></div>
+        <div id="info" class="info" hidden></div>
+        <div id="marca-mdt" class="tarjeta-marca" role="status" hidden><span class="punto-leyenda mdt" aria-hidden="true"></span><span id="marca-texto"></span><button id="btn-quitar-marca" class="quitar-marca" type="button" title="Quitar la marca">✕</button></div>
+        <div class="leyenda" aria-label="Leyenda">
+          <span><i class="punto-leyenda policia"></i>Policía</span>
+          <span><i class="punto-leyenda bomberos"></i>Bomberos / sanitarios</span>
+          <span><i class="punto-leyenda ocupada"></i>En aviso</span>
+          <span><i class="punto-leyenda rombo"></i>Aviso</span>
+          <span><i class="punto-leyenda tu"></i>Tú</span>
+        </div>
+        <div class="zoom" role="toolbar" aria-label="Zoom">
+          <button id="btn-acercar" class="boton-icono" type="button" title="Acercar"><svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg></button>
+          <button id="btn-alejar" class="boton-icono" type="button" title="Alejar"><svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14" /></svg></button>
+          <button id="btn-yo" class="boton-icono" type="button" title="Ir a mi posición" disabled><svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2v3M12 19v3M2 12h3M19 12h3" /></svg></button>
+          <button id="btn-encajar" class="boton-icono" type="button" title="Ver todo el mapa"><svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" /></svg></button>
+        </div>
+      </section>
+
+      <aside class="lateral">
+        <div class="pestanas" role="tablist">
+          <button class="pestana activa" type="button" role="tab" data-pestana="avisos">Avisos <span id="pestana-avisos" class="pestana-num">0</span></button>
+          <button class="pestana" type="button" role="tab" data-pestana="unidades">Unidades <span id="pestana-unidades" class="pestana-num">0</span></button>
+        </div>
+        <div id="panel-avisos" class="panel-lista">
+          <ul id="lista-avisos" class="lista"></ul>
+          <p id="sin-avisos" class="vacio">No hay avisos abiertos.</p>
+        </div>
+        <div id="panel-unidades" class="panel-lista" hidden>
+          <ul id="lista-unidades" class="lista"></ul>
+          <p id="sin-unidades" class="vacio">No hay unidades de emergencias en el servidor.</p>
+        </div>
+        <p id="aviso" class="aviso" role="status"></p>
+        <p class="legal legal-lateral">© 2026 Ibiza Roleplay · Todos los derechos reservados</p>
+      </aside>
+    </main>
+
+    <section id="pantalla-login" class="login" hidden>
+      <div class="login-tarjeta">
+        <img class="logo logo-servidor" src="logo.png" alt="Ibiza Roleplay" hidden />
+        <h1 class="login-titulo">CAD</h1>
+        <p class="login-sub">Ibiza Roleplay · Central de emergencias</p>
+        <p class="login-texto">Escribe <code>/consola codigo</code> en Discord y pulsa <strong>Abrir Emergencias</strong>, o pega aquí el código. Solo para quien tenga acceso al CAD.</p>
+        <label class="campo-etiqueta" for="codigo">Código de acceso</label>
+        <input id="codigo" class="campo campo-codigo" type="text" maxlength="11" autocomplete="off" spellcheck="false" placeholder="ABCDE-FGHJK" />
+        <button id="btn-login" class="boton-principal" type="button">Entrar</button>
+        <p id="login-aviso" class="aviso" role="status"></p>
+        <p class="legal">© 2026 Ibiza Roleplay · Todos los derechos reservados</p>
+      </div>
+    </section>
+
+    <!-- Lo que queda en la pestaña mientras el CAD está en la ventana flotante. -->
+    <section id="aviso-flotante" class="aviso-flotante" hidden>
+      <div class="login-tarjeta">
+        <p class="login-titulo">El CAD está en la ventana flotante</p>
+        <p class="login-texto">Puedes minimizar esta pestaña, pero <strong>no la cierres</strong>: la ventana flotante se cerraría con ella.</p>
+        <button id="btn-traer" class="boton-principal" type="button">Traerlo de vuelta</button>
+      </div>
+    </section>
+    <script src="web.js"></script>
+    <script src="renderer.js"></script>
+  </body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0d1219" />
+    <!-- La CSP la manda el bot en la cabecera: solo nuestros archivos, conexión solo al mismo origen. -->
+    <title>Emergencias · Ibiza Roleplay</title>
+    <link rel="icon" href="logo.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Portal de emergencias y MDT de Guardia Civil, SAMU y Bombers: la interfaz elige por la dirección. -->
+    <div class="escritorio">
+      <div class="tablet">
+        <span class="camara" aria-hidden="true"></span>
+        <div class="pantalla">
+          <div class="barra-estado">
+            <span id="hora" class="barra-hora">--:--</span>
+            <span class="barra-titulo"><span id="franja" class="franja franja-emergencias" aria-hidden="true"></span><span id="barra-titulo">Emergencias</span></span>
+            <span id="conexion" class="conexion desconectado"><span class="punto" aria-hidden="true"></span><span id="conexion-texto">Desconectado</span></span>
+          </div>
+
+          <header class="cabecera">
+            <div class="marca">
+              <img class="logo" src="logo.png" alt="" />
+              <span class="insignia-marca" aria-hidden="true">IR</span>
+              <div class="marca-texto">
+                <span id="marca-titulo" class="marca-titulo">Emergencias</span>
+                <span class="marca-sub">Ibiza Roleplay</span>
+              </div>
+            </div>
+            <div class="cabecera-derecha">
+              <span id="agente" class="agente"></span>
+              <a id="btn-apps" class="boton-icono" href="../" title="Emergencias: todas las aplicaciones" hidden>
+                <svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v6H4V4Zm10 0h6v6h-6V4ZM4 14h6v6H4v-6Zm10 0h6v6h-6v-6Z" /></svg>
+              </a>
+              <button id="btn-salir" class="boton-icono" type="button" title="Cerrar sesión" hidden>
+                <svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 17l5-5-5-5M15 12H3" /></svg>
+              </button>
+            </div>
+          </header>
+
+          <main id="contenido" class="contenido" hidden></main>
+
+          <section id="login" class="login" hidden>
+            <div class="login-tarjeta">
+              <img class="login-logo" src="logo.png" alt="Ibiza Roleplay" />
+              <p class="etiqueta"><span class="etiqueta-punto" aria-hidden="true"></span><span id="login-etiqueta">Emergencias · Ibiza Roleplay</span></p>
+              <h1 id="login-titulo" class="login-titulo">Emergencias</h1>
+              <p class="login-texto">Escribe <code>/consola codigo</code> en Discord y pulsa <strong>Abrir Emergencias</strong>, o pega aquí el código.</p>
+              <label class="campo-etiqueta" for="codigo">Código de acceso</label>
+              <input id="codigo" class="campo campo-codigo" type="text" maxlength="11" autocomplete="off" spellcheck="false" placeholder="ABCDE-FGHJK" />
+              <button id="btn-login" class="boton primario boton-ancho" type="button">Entrar</button>
+              <p id="login-aviso" class="login-aviso" role="status"></p>
+              <p class="legal">© 2026 Ibiza Roleplay · Todos los derechos reservados</p>
+            </div>
+          </section>
+
+          <!-- Las secciones de cada MDT las pone la interfaz delante del botón del CAD. -->
+          <nav id="navegacion" class="navegacion" aria-label="Secciones del MDT" hidden>
+            <button id="nav-cad" type="button" hidden><svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Zm0 0v14m6-12v14" /></svg><span>CAD</span></button>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <script src="web.js"></script>
+    <script src="renderer.js"></script>
+  </body>
+</html>
