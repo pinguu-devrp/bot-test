@@ -24,9 +24,15 @@ Los huecos amarillos (`.pendiente`) son datos que faltan. Antes de publicar no d
 
 ## Publicar
 
-- Sirve la carpeta con cualquier servidor estático. Con **Cloudflare Pages** o Netlify, el archivo `_headers` aplica las cabeceras de seguridad solo. Con nginx u otro, hay que copiarlas a mano.
-- Usa `404.html` como página de error. `robots.txt` y `sitemap.xml` ya apuntan a `https://www.ibizaroleplayerlc.com`.
-- No subas `vista-previa.html` (es solo para verla en remoto) ni este archivo.
+**Con el bot (lo normal):** el bot sirve esta carpeta en cuanto está encendido, a las peticiones cuyo dominio esté en `PUBLIC_WEB_ORIGINS`.
+
+1. Copia el contenido de esta carpeta a `web/www` junto al `docker-compose.yml` del servidor (se monta en el bot como `/ibiza-www`). `_headers` tiene que ir dentro: el bot saca de él las cabeceras de seguridad y, sin él, no sirve la web.
+2. En el túnel de Cloudflare, el hostname `www.ibizaroleplayerlc.com` apunta al mismo servicio que `app` (`http://localhost:3001`).
+3. Reinicia el bot: carga la web una vez al arrancar, así que un cambio en estos archivos no se ve hasta reiniciarlo. En la consola verás «🌐 Web pública disponible».
+
+El bot nunca sirve `LEEME.md`, `_headers` ni `vista-previa.html`, aunque estén en la carpeta. Las páginas que no existen salen con `404.html`.
+
+**Con otro servidor estático:** con Cloudflare Pages o Netlify, `_headers` aplica las cabeceras solo. Con nginx u otro, hay que copiarlas a mano. `robots.txt` y `sitemap.xml` ya apuntan a `https://www.ibizaroleplayerlc.com`.
 
 ## Seguridad: no la rompas sin querer
 
