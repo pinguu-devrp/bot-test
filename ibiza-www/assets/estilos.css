@@ -65,23 +65,20 @@
 
     /* Portada */
     .portada { position: relative; padding: 0; min-height: 36rem; display: flex; align-items: flex-end; overflow: hidden; }
-    .portada-fondo { position: absolute; inset: 0; background:
-        linear-gradient(90deg, rgba(13,18,25,.92) 0%, rgba(13,18,25,.7) 40%, rgba(13,18,25,.1) 80%),
-        linear-gradient(180deg, rgba(13,18,25,.25) 0%, rgba(13,18,25,.55) 55%, var(--fondo) 100%),
+    .portada-fondo { position: absolute; inset: 0; }
+    /* La foto va pegada a la derecha y se desvanece hacia el texto: así no tapa ni se apaga detrás del título. */
+    .portada-fondo::before { content: ""; position: absolute; inset: 0; background: url("../img/portada-guardia-civil.webp") 70% center / auto 100% no-repeat;
+        -webkit-mask-image: linear-gradient(90deg, transparent 28%, #000 62%); mask-image: linear-gradient(90deg, transparent 28%, #000 62%); }
+    .portada-fondo::after { content: ""; position: absolute; inset: 0; background:
+        linear-gradient(90deg, rgba(13,18,25,.85) 0%, rgba(13,18,25,.45) 40%, rgba(13,18,25,0) 75%),
+        linear-gradient(180deg, rgba(13,18,25,.2) 0%, rgba(13,18,25,.45) 55%, var(--fondo) 100%),
         radial-gradient(40rem 22rem at 15% 20%, rgba(224,69,123,.28), transparent 70%),
-        radial-gradient(36rem 20rem at 90% 10%, rgba(124,58,237,.25), transparent 70%),
-        url("../img/18.webp") center 60% / cover no-repeat; }
+        radial-gradient(36rem 20rem at 90% 10%, rgba(124,58,237,.25), transparent 70%); }
     .portada .caja { position: relative; padding-top: 7rem; padding-bottom: 3rem; }
     .portada h1 { font-size: clamp(3.2rem, 14vw, 7.2rem); text-shadow: 0 4px 30px rgba(0,0,0,.45); }
     .portada h1 span { display: block; background: linear-gradient(90deg, #f6a53b, var(--naranja) 40%, var(--rosa)); -webkit-background-clip: text; background-clip: text; color: transparent; }
     .portada .sub { color: #cfd8e3; font-size: 1.15rem; }
 
-    /* Franja de cifras */
-    .cifras { padding-top: 0; margin-top: -1px; }
-    .cifras ul { list-style: none; margin: 0; padding: 1.4rem 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem 1rem; border-top: 1px solid var(--borde); border-bottom: 1px solid var(--borde); }
-    .cifras li { text-align: center; }
-    .cifras strong { display: block; font-family: var(--titulo); font-size: clamp(2.2rem, 8vw, 3.2rem); font-weight: 800; line-height: 1; color: var(--texto); }
-    .cifras span { font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--texto-3); }
 
     /* Pasos */
     .pasos { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 1rem; }
@@ -112,7 +109,6 @@
     .tricolor i { flex: 1; }
 
     /* Galería */
-    .galeria { margin-top: 2rem; display: grid; gap: .8rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .foto { position: relative; margin: 0; border-radius: .8rem; overflow: hidden; border: 1px solid var(--borde); background: var(--panel); aspect-ratio: 4 / 3; }
     .foto img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s; }
     .foto:hover img { transform: scale(1.04); }
@@ -143,11 +139,12 @@
       nav.enlaces { display: flex; }
       .caja { padding: 0 2rem; }
       .portada { min-height: 42rem; }
-      .cifras ul { grid-template-columns: repeat(4, 1fr); }
       .pasos { grid-template-columns: repeat(3, 1fr); }
       .servicios { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      .galeria { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
       section { padding-top: 6rem; }
+    }
+    @media (min-width: 1000px) {
+      .portada-fondo::before { background-position: right center; }
     }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
@@ -258,3 +255,56 @@ footer h4 { margin: 0 0 .6rem; font-family: var(--titulo); font-size: 1rem; lett
 footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .4rem; }
 footer a:hover { color: var(--texto); }
 @media (min-width: 720px) { footer .columnas { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+/* Foto panorámica a todo el ancho (la proporción de la imagen, sin recortar). */
+.foto.panoramica { aspect-ratio: 1600 / 836; margin: 1.6rem 0 0; }
+
+/* ===== ESTADO EN VIVO (inicio): miembros del Discord y seguidores ===== */
+.vivo { padding-top: 0; margin-top: -1.6rem; position: relative; z-index: 2; }
+.vivo-panel { display: grid; grid-template-columns: minmax(0, 1fr); border: 1px solid var(--borde-fuerte); border-radius: 1rem; background: linear-gradient(180deg, var(--panel-2), var(--panel)); box-shadow: 0 18px 40px rgba(0,0,0,.35); overflow: hidden; }
+.vivo-dato { display: flex; flex-direction: column; gap: .35rem; padding: 1.3rem 1.5rem 1.4rem; border-top: 1px solid var(--borde); }
+.vivo-dato:first-child { border-top: 0; }
+.vivo-fuente { display: flex; align-items: center; min-height: 1.7rem; font-size: .8rem; font-weight: 700; color: var(--texto-3); }
+.vivo-dato strong { font-family: var(--titulo); font-size: clamp(2.6rem, 9vw, 3.8rem); font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+.vivo-nombre { color: var(--texto-2); font-size: .95rem; }
+@media (min-width: 720px) {
+  .vivo-panel { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .vivo-dato { border-top: 0; border-left: 1px solid var(--borde); }
+  .vivo-dato:first-child { border-left: 0; }
+}
+
+/* ===== DONACIONES: las ventajas aparecen al pasar el cursor; al pulsar se va a la compra ===== */
+.donaciones { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 720px) { .donaciones { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.donacion { --color: var(--naranja); position: relative; display: flex; flex-direction: column; min-height: 20rem; height: 100%; overflow: hidden; background: var(--panel); border: 1px solid var(--borde); border-top: .32rem solid var(--color); border-radius: .9rem; transition: border-color .2s, transform .2s; }
+.donacion:hover, .donacion:focus-visible { border-color: var(--color); transform: translateY(-3px); }
+.don-frente { flex: 1; display: flex; flex-direction: column; gap: .6rem; padding: 1.5rem 1.4rem 1rem; }
+.don-nombre { font-family: var(--titulo); font-weight: 800; font-size: 1.9rem; line-height: 1; text-transform: uppercase; }
+.don-precio { font-family: var(--titulo); font-weight: 800; font-size: 3rem; line-height: 1; color: var(--color); }
+.don-desc { color: var(--texto-2); }
+.don-ventajas { position: absolute; inset: 0 0 3.6rem 0; padding: 1.4rem; background: var(--panel-2); opacity: 0; transform: translateY(.6rem); pointer-events: none; overflow: auto; transition: opacity .2s, transform .2s; }
+.donacion:hover .don-ventajas, .donacion:focus-visible .don-ventajas { opacity: 1; transform: none; }
+.don-tit { display: block; margin-bottom: .6rem; font-family: var(--titulo); font-weight: 800; font-size: 1.3rem; text-transform: uppercase; color: var(--color); }
+.don-ventajas ul { list-style: none; margin: 0; padding: 0; }
+.don-ventajas li { position: relative; margin: .5rem 0; padding-left: 1.6rem; color: var(--texto); }
+.don-ventajas li::before { content: ""; position: absolute; left: .1rem; top: .4rem; width: .65rem; height: .35rem; border-left: 2px solid var(--color); border-bottom: 2px solid var(--color); transform: rotate(-45deg); }
+.don-comprar { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; height: 3.6rem; padding: 0 1.4rem; border-top: 1px solid var(--borde); background: var(--panel); font-size: .8rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--color); }
+.don-comprar svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: transform .15s; }
+.donacion:hover .don-comprar svg { transform: translateX(4px); }
+/* Sin cursor (móvil y táctil): no hay "pasar por encima", así que las ventajas se ven siempre. */
+@media (hover: none) {
+  .donacion { min-height: 0; }
+  .donacion:hover, .donacion:focus-visible { transform: none; }
+  .don-ventajas { position: static; padding: 0 1.4rem 1.3rem; background: none; opacity: 1; transform: none; pointer-events: auto; }
+}
+@media (prefers-reduced-motion: reduce) { .donacion, .don-ventajas, .don-comprar svg { transition: none; } .donacion:hover, .donacion:focus-visible { transform: none; } }
+
+/* ===== Utilidades que sustituyen a los estilos en línea (así la política de seguridad puede prohibirlos) ===== */
+.prosa h2 + p { margin-top: 1.2rem; }
+.llamada .etiqueta { justify-content: center; }
+.llamada .sub { margin-left: auto; margin-right: auto; }
+.prosa > .aviso:first-child { margin-top: 0; }
+.col-azul { --color: var(--azul-claro); }
+.col-rojo { --color: #f87171; }
+.col-rosa { --color: var(--rosa); }
+.col-naranja { --color: var(--naranja); }
