@@ -26,7 +26,7 @@ Los huecos amarillos (`.pendiente`) son datos que faltan. Antes de publicar no d
 
 **Con el bot (lo normal):** el bot sirve esta carpeta en cuanto está encendido, a las peticiones cuyo dominio esté en `PUBLIC_WEB_ORIGINS`.
 
-1. Copia el contenido de esta carpeta a `web/www` junto al `docker-compose.yml` del servidor (se monta en el bot como `/ibiza-www`). `_headers` tiene que ir dentro: el bot saca de él las cabeceras de seguridad y, sin él, no sirve la web.
+1. La carpeta `www/` del repo del bot es una copia de esta (sin `LEEME.md` ni `vista-previa.html`) y el compose la monta en el bot como `/ibiza-www`. `_headers` tiene que ir dentro: el bot saca de él las cabeceras de seguridad y, sin él, no sirve la web. Tras editar aquí, recópiala: `cp -r ibiza-www/. ibiza-bot/www/ && rm ibiza-bot/www/LEEME.md ibiza-bot/www/vista-previa.html`.
 2. En el túnel de Cloudflare, el hostname `www.ibizaroleplayerlc.com` apunta al mismo servicio que `app` (`http://localhost:3001`).
 3. Reinicia el bot: carga la web una vez al arrancar, así que un cambio en estos archivos no se ve hasta reiniciarlo. En la consola verás «🌐 Web pública disponible».
 
