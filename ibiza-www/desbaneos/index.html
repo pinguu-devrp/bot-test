@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0d1219">
+  <title>Solicitud de desbaneo · Ibiza Roleplay</title>
+  <meta name="description" content="Formulario para solicitar el desbaneo del Discord o de ER:LC en Ibiza Roleplay.">
+  <meta property="og:title" content="Solicitud de desbaneo · Ibiza Roleplay">
+  <meta property="og:description" content="Formulario para solicitar el desbaneo del Discord o de ER:LC en Ibiza Roleplay.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="../img/18.webp">
+  <link rel="icon" href="../assets/logo.png">
+  <link rel="stylesheet" href="../assets/estilos.css">
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <header class="barra">
+    <div class="caja">
+      <a class="marca" href="../"><img src="../assets/logo.png" alt=""><span>Ibiza RP</span></a>
+      <nav class="enlaces" aria-label="Principal"><a href="../conocenos/">Conócenos</a><a href="../nuestro-roleplay/">Nuestro roleplay</a><a href="../trabajos/">Trabajos</a><a href="../catalogo/">Catálogo</a><a href="../desbaneos/" aria-current="page">Desbaneos</a></nav>
+      <div class="derecha">
+        <a class="boton boton-principal" href="https://discord.gg/QFgEHgJyag" target="_blank" rel="noopener noreferrer">Discord</a>
+        <details class="menu"><summary>Menú</summary><nav aria-label="Menú"><a href="../conocenos/">Conócenos</a><a href="../nuestro-roleplay/">Nuestro roleplay</a><a href="../trabajos/">Trabajos</a><a href="../catalogo/">Catálogo</a><a href="../desbaneos/" aria-current="page">Desbaneos</a><a href="../contacto/">Contacto</a></nav></details>
+      </div>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <div class="pagina-cab">
+      <div class="caja">
+        <nav class="migas" aria-label="Migas de pan"><a href="../">Inicio</a><span aria-hidden="true">/</span><span>Solicitud de desbaneo</span></nav>
+        <h1>Solicitud de <span>desbaneo</span></h1>
+        <p class="sub">Cuéntanos tu caso. Revisamos cada solicitud con calma.</p>
+      </div>
+    </div>
+    <section>
+      <div class="caja">
+        <div class="prosa">
+          <p>Si te han baneado, ya sea del Discord o del juego (ER:LC), y crees que merece una segunda oportunidad, rellena el formulario. El staff lo revisará y te responderá.</p>
+          <ul>
+            <li>Envía <strong>una sola solicitud</strong>; repetirla no acelera la respuesta.</li>
+            <li>Sé sincero: cuéntanos qué pasó desde tu punto de vista.</li>
+            <li>Tus datos solo los usa el staff para valorar tu caso. Más detalles en la <a class="enlace" href="../privacidad/">política de privacidad</a>.</li>
+          </ul>
+        </div>
+
+        <form id="form-desbaneo" class="formulario" method="post" action="https://app.ibizaroleplayerlc.com/api/desbaneo">
+          <div class="trampa" aria-hidden="true"><label>No rellenes este campo<input type="text" name="web" tabindex="-1" autocomplete="off"></label></div>
+          <div class="fila">
+            <label>Tu usuario de Discord <input type="text" name="discord" required maxlength="64" autocomplete="off" placeholder="usuario"></label>
+            <label>Tu usuario de Roblox <small>(si te baneamos del juego)</small><input type="text" name="roblox" maxlength="32" autocomplete="off" placeholder="usuario de Roblox"></label>
+          </div>
+          <div class="fila">
+            <label>¿Dónde te baneamos?
+              <select name="donde" required>
+                <option value="">Elige una opción</option>
+                <option value="discord">En el Discord</option>
+                <option value="erlc">En el juego (ER:LC)</option>
+                <option value="ambos">En los dos</option>
+                <option value="no-se">No lo sé</option>
+              </select>
+            </label>
+            <label>Fecha aproximada del baneo <input type="text" name="fecha" maxlength="40" placeholder="Por ejemplo: marzo de 2026"></label>
+          </div>
+          <label>Motivo del baneo <small>(el que te dijeron o el que crees que fue)</small><textarea name="motivo" required maxlength="800"></textarea></label>
+          <label>Tu versión de lo ocurrido<textarea name="version" required maxlength="1500"></textarea></label>
+          <label>¿Por qué deberíamos levantar el baneo?<textarea name="razon" required maxlength="1400"></textarea></label>
+          <div class="fila">
+            <label>Pruebas <small>(un enlace, opcional)</small><input type="url" name="pruebas" maxlength="300" placeholder="https://"></label>
+            <label>Correo para responderte <small>(opcional)</small><input type="email" name="correo" maxlength="120" autocomplete="email" placeholder="tu@correo.com"></label>
+          </div>
+          <label class="casilla"><input type="checkbox" name="acepto" value="si" required><span>He leído la <a class="enlace" href="../privacidad/">política de privacidad</a> y acepto que el staff trate estos datos para valorar mi solicitud.</span></label>
+          <button class="boton boton-principal" type="submit">Enviar solicitud</button>
+          <p id="estado" class="estado" role="status" aria-live="polite"></p>
+        </form>
+        <p class="aviso"><strong>¿Prefieres escribirnos?</strong> También puedes mandar tu solicitud a <a class="enlace" href="mailto:ibizaroleplayerlc@gmail.com">ibizaroleplayerlc@gmail.com</a>.</p>
+      </div>
+    </section>
+</main>
+
+  <footer>
+    <div class="caja">
+      <div class="columnas">
+        <div><h4>Servidor</h4><ul><li><a href="../conocenos/">Conócenos</a></li><li><a href="../nuestro-roleplay/">Nuestro roleplay</a></li><li><a href="../trabajos/">Trabajos</a></li><li><a href="../catalogo/">Catálogo</a></li></ul></div>
+        <div><h4>Ayuda</h4><ul><li><a href="../desbaneos/">Solicitud de desbaneo</a></li><li><a href="../contacto/">Contacto</a></li><li><a href="../privacidad/">Privacidad</a></li></ul></div>
+        <div><h4>Herramientas</h4><ul><li><a href="/emergencias/">Emergencias</a></li><li><a href="/consola/">Consola</a></li></ul></div>
+        <div><h4>Comunidad</h4><ul><li><a href="https://discord.gg/QFgEHgJyag" target="_blank" rel="noopener noreferrer">Discord</a></li><li><a href="mailto:ibizaroleplayerlc@gmail.com">ibizaroleplayerlc@gmail.com</a></li></ul></div>
+      </div>
+      <p>© 2026 Ibiza Roleplay · Todos los derechos reservados.</p>
+      <p>Ibiza Roleplay es una comunidad independiente. No está afiliada, patrocinada ni respaldada por Roblox Corporation ni por los creadores de Emergency Response: Liberty County.</p>
+    </div>
+  </footer>
+  <script src="../assets/formulario.js"></script>
+</body>
+</html>
