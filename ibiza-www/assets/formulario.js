@@ -21,7 +21,7 @@
     }).then(function (r) {
       if (!r.ok) {
         return r.json().catch(function () { return {}; }).then(function (d) {
-          var e = new Error('http'); e.detalle = (r.status === 422 || r.status === 429) ? d.error : ''; throw e;
+          var e = new Error('http'); e.detalle = (r.status === 403 || r.status === 422 || r.status === 429 || r.status === 503) ? d.error : ''; throw e;
         });
       }
       estado.className = 'estado ok';
@@ -30,6 +30,11 @@
     }).catch(function (e) {
       estado.className = 'estado error';
       estado.textContent = (e && e.detalle) || 'No hemos podido enviarla ahora. Escribe directamente a ibizaroleplayerlc@gmail.com.';
-    }).then(function () { clearTimeout(corte); boton.disabled = false; });
+    }).then(function () {
+      clearTimeout(corte);
+      boton.disabled = false;
+      // El token de Turnstile sirve una sola vez: tras cada intento hay que pedir uno nuevo.
+      if (window.turnstile && typeof window.turnstile.reset === 'function') window.turnstile.reset();
+    });
   });
 })();
