@@ -16,9 +16,8 @@ Abre `http://localhost:8770`. Hay que servirla así (no abrir `index.html` a man
 |---|---|
 | Enlace del Discord | todos los `index.html` (buscar `discord.gg/QFgEHgJyag`) |
 | Cifra de seguidores | `index.html`: `data-valor` y el texto de `data-vivo="seguidores"` (hoy TikTok + YouTube + Instagram = 8.388, leído el 2026-11-07) |
-| Donaciones (nombre, precio, ventajas, enlace de compra) | `donaciones/index.html`: una tarjeta `<li>` por donación |
 | Staff y fechas de la historia | `conocenos/index.html` |
-| Sueldos | `trabajos/index.html` |
+| Trabajos y Donaciones (quitadas hasta que estén listas) | `.pendientes/trabajos/` y `.pendientes/donaciones/`: para volver a publicarlas, mover cada carpeta junto a `conocenos/` y añadir sus enlaces al menú, al pie y a `sitemap.xml` |
 
 Los huecos amarillos (`.pendiente`) son datos que faltan. Antes de publicar no debe quedar ninguno.
 
